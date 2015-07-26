@@ -36,13 +36,13 @@ Show all messages in drawer named JohnDoe. Message is shown with JSON Format
 
 
 ### Request parameters
-When request post message, set parameter *from* and *body*
+Set parameters named *from* and *body* when client sends POST request.
 
 * from
-  - Set message sender name.
+  - Message sender name.
 
 * body
-  - Set message body.
+  - Message body.
 
 ## Author
 Takahiro Honda (a.k.a hy3)
