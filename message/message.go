@@ -1,8 +1,11 @@
 package message
 
 import (
+	"fmt"
 	"time"
 )
+
+const BroadcastName = ""
 
 // MessageBox is a message box which holds all messages in its drawers.
 type MessageBox struct {
@@ -26,6 +29,29 @@ func (m *MessageBox) Pickup(name string) []*Message {
 	messages := drawer.Messages
 	drawer.truncate()
 	return messages
+}
+
+// Post puts message into correct Drawers.
+func (m *MessageBox) Post(msg *Message) error {
+	if msg == nil {
+		return fmt.Errorf("Post message is nil.")
+	}
+
+	if msg.To == BroadcastName {
+		for _, drawer := range m.Drawers {
+			drawer.appendMessage(msg)
+		}
+	} else {
+		m.addDrawer(msg.To)
+		m.Drawers[msg.To].appendMessage(msg)
+	}
+	return nil
+}
+
+func (m *MessageBox) addDrawer(name string) {
+	if _, exists := m.Drawers[name]; !exists {
+		m.Drawers[name] = NewDrawer()
+	}
 }
 
 // Drawer is a drawer of message box.

@@ -24,3 +24,83 @@ func TestPickup(t *testing.T) {
 		t.Error("Message must be empty after Pickup, but is not.")
 	}
 }
+
+func TestPost(t *testing.T) {
+	msgBox := NewMessageBox()
+
+	msg1 := New("a", "b", "testmsg1")
+	if err := msgBox.Post(msg1); err != nil {
+		t.Fatalf("Error occured: %s", err)
+	}
+	msg2 := New("b", "c", "testmsg2")
+	if err := msgBox.Post(msg2); err != nil {
+		t.Fatalf("Error occured: %s", err)
+	}
+	msg3 := New("c", "b", "testmsg3")
+	if err := msgBox.Post(msg3); err != nil {
+		t.Fatalf("Error occured: %s", err)
+	}
+
+	if _, exists := msgBox.Drawers["a"]; exists {
+		t.Fatal(`Drawers["a"] must not exist, but it exists.`)
+	}
+
+	b, exists := msgBox.Drawers["b"]
+	if !exists {
+		t.Fatal(`Drawers["b"] must be exist, but dose not exist.`)
+	}
+	if len(b.Messages) != 2 {
+		t.Fatalf("len(b.Messages) => %d, want %d", len(b.Messages), 2)
+	}
+	if b.Messages[0].Body != "testmsg1" {
+		t.Errorf("b.Messages[0].Body => %s, want %s", b.Messages[0].Body, "testmsg1")
+	}
+	if b.Messages[1].Body != "testmsg3" {
+		t.Errorf("b.Messages[1].Body => %s, want %s", b.Messages[1].Body, "testmsg3")
+	}
+
+	c, exists := msgBox.Drawers["c"]
+	if !exists {
+		t.Fatal(`Drawers["c"] must be exist, but dose not exist.`)
+	}
+	if len(c.Messages) != 1 {
+		t.Fatalf("len(c.Messages) => %d, want %d", len(c.Messages), 1)
+	}
+	if c.Messages[0].Body != "testmsg2" {
+		t.Errorf("c.Messages[0].Body => %s, want %s", c.Messages[0].Body, "testmsg2")
+	}
+}
+
+func TestPost_Broadcast(t *testing.T) {
+	msgBox := NewMessageBox()
+	msgBox.addDrawer("a")
+	msgBox.addDrawer("b")
+	msgBox.addDrawer("c")
+
+	msg := New("someone", BroadcastName, "testmsg")
+	msgBox.Post(msg)
+
+	a := msgBox.Drawers["a"]
+	if len(a.Messages) != 1 {
+		t.Fatalf("len(a.Messages) => %d, want %d", len(a.Messages), 1)
+	}
+	if a.Messages[0].Body != "testmsg" {
+		t.Errorf("a.Messages[0].Body => %s, want %s", a.Messages[0].Body, "testmsg")
+	}
+
+	b := msgBox.Drawers["b"]
+	if len(b.Messages) != 1 {
+		t.Fatalf("len(b.Messages) => %d, want %d", len(b.Messages), 1)
+	}
+	if b.Messages[0].Body != "testmsg" {
+		t.Errorf("b.Messages[0].Body => %s, want %s", b.Messages[0].Body, "testmsg")
+	}
+
+	c := msgBox.Drawers["b"]
+	if len(c.Messages) != 1 {
+		t.Fatalf("len(c.Messages) => %d, want %d", len(c.Messages), 1)
+	}
+	if c.Messages[0].Body != "testmsg" {
+		t.Errorf("c.Messages[0].Body => %s, want %s", c.Messages[0].Body, "testmsg")
+	}
+}
