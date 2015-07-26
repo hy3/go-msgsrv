@@ -77,7 +77,7 @@ func TestPost_Broadcast(t *testing.T) {
 	msgBox.addDrawer("b")
 	msgBox.addDrawer("c")
 
-	msg := New("someone", BroadcastName, "testmsg")
+	msg := New("someone", Broadcast, "testmsg")
 	msgBox.Post(msg)
 
 	a := msgBox.Drawers["a"]

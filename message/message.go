@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const BroadcastName = ""
+const Broadcast = ""
 
 // MessageBox is a message box which holds all messages in its drawers.
 type MessageBox struct {
@@ -37,7 +37,7 @@ func (m *MessageBox) Post(msg *Message) error {
 		return fmt.Errorf("Post message is nil.")
 	}
 
-	if msg.To == BroadcastName {
+	if msg.To == Broadcast {
 		for _, drawer := range m.Drawers {
 			drawer.appendMessage(msg)
 		}
