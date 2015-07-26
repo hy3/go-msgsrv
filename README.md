@@ -19,5 +19,30 @@ Start server with listen-port 1234.
 
     go-msgsrv -p 1234
 
+## APIs
+### URLs
+Send message to drawer named JohnDoe.
+
+    POST /JohnDoe/messages/new
+
+Send broadcast message(Broadcast message is delivered to all drawers.).
+
+    POST /messages/new
+
+Show all messages in drawer named JohnDoe. Message is shown with JSON Format
+
+    GET /JohnDoe/messages
+
+
+
+### Request parameters
+When request post message, set parameter *from* and *body*
+
+* from
+  - Set message sender name.
+
+* body
+  - Set message body.
+
 ## Author
 Takahiro Honda (a.k.a hy3)
