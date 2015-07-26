@@ -15,6 +15,7 @@ type arguments struct {
 func main() {
 	args := fetchArgs()
 	handler := SetupHandler()
+	fmt.Println("Start to listen port ", args.port, "...")
 	if err := http.ListenAndServe(":"+args.port, handler); err != nil {
 		fmt.Println(err)
 	}
