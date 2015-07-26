@@ -1,11 +1,17 @@
 package message
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 )
 
 const Broadcast = ""
+
+// ConvertJSON converts message array to JSON string.
+func ConvertToJSON(msgs []*Message) ([]byte, error) {
+	return json.Marshal(msgs)
+}
 
 // MessageBox is a message box which holds all messages in its drawers.
 type MessageBox struct {
@@ -80,10 +86,10 @@ func (d *Drawer) truncate() {
 // Message is a message sent from someone to someone.
 // If value of To is "all", it is a broadcast message.
 type Message struct {
-	From      string    `json:"from"`
-	To        string    `json:"to"`
-	Body      string    `json:"body"`
-	Timestamp time.Time `json:"timestamp"`
+	From      string `json:"from"`
+	To        string `json:"to"`
+	Body      string `json:"body"`
+	Timestamp string `json:"timestamp"`
 }
 
 // New creates a new Message object.
@@ -92,6 +98,6 @@ func New(from, to, body string) *Message {
 	m.From = from
 	m.To = to
 	m.Body = body
-	m.Timestamp = time.Now()
+	m.Timestamp = time.Now().Format("2006/01/02 15:04:05")
 	return m
 }

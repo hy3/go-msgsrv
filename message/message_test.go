@@ -1,8 +1,31 @@
 package message
 
 import (
+	"fmt"
 	"testing"
 )
+
+func TestConvertToJSON(t *testing.T) {
+	expectedPattern := `[{"from":"a","to":"b","body":"testmsg1","timestamp":"%s"},{"from":"b","to":"c","body":"testmsg2","timestamp":"%s"}]`
+
+	msg1 := New("a", "b", "testmsg1")
+	msg2 := New("b", "c", "testmsg2")
+	expected := fmt.Sprintf(expectedPattern, msg1.Timestamp, msg2.Timestamp)
+
+	messages := []*Message{msg1, msg2}
+	json, err := ConvertToJSON(messages)
+	if err != nil {
+		t.Fatalf("Error occured: %s", err)
+	}
+	if string(json) != expected {
+		t.Log("ConvertToJSON result is not expected value.")
+		t.Log("Expected:")
+		t.Log(expected)
+		t.Log("Actual:")
+		t.Log(json)
+		t.Fail()
+	}
+}
 
 func TestPickup(t *testing.T) {
 	msgBox := NewMessageBox()
