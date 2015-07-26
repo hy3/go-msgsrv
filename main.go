@@ -14,7 +14,8 @@ type arguments struct {
 
 func main() {
 	args := fetchArgs()
-	if err := http.ListenAndServe(":"+args.port, nil); err != nil {
+	handler := SetupHandler()
+	if err := http.ListenAndServe(":"+args.port, handler); err != nil {
 		fmt.Println(err)
 	}
 }
