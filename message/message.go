@@ -16,17 +16,39 @@ func NewMessageBox() *MessageBox {
 	return m
 }
 
+// Pickup take out all message in a Drawer.
+func (m *MessageBox) Pickup(name string) []*Message {
+	drawer, ok := m.Drawers[name]
+	if !ok {
+		return nil
+	}
+
+	messages := drawer.Messages
+	drawer.truncate()
+	return messages
+}
+
 // Drawer is a drawer of message box.
 // Every drawer holds messages for someone.
 type Drawer struct {
 	Messages []*Message `json:"messages"`
 }
 
+const initialCapacity = 10
+
 // NewDrawer creates a new Drawer object with no Messages.
 func NewDrawer() *Drawer {
 	d := new(Drawer)
-	d.Messages = make([]*Message, 0, 10)
+	d.truncate()
 	return d
+}
+
+func (d *Drawer) appendMessage(msg *Message) {
+	d.Messages = append(d.Messages, msg)
+}
+
+func (d *Drawer) truncate() {
+	d.Messages = make([]*Message, 0, initialCapacity)
 }
 
 // Message is a message sent from someone to someone.
