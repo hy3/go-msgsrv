@@ -44,5 +44,24 @@ Set parameters named *from* and *body* when client sends POST request.
 * body
   - Message body.
 
+### Response format
+go-msgsvr outputs JSON message when client sends GET request.
+Like this,
+
+    [
+      {
+        "from":"JaneSmith",
+        "to":"JohnDoe",
+        "body":"Hello, John!",
+        "timestamp":"2015-07-27 08:30:15"
+      },
+      {
+        "from":"Administrator",
+        "to":"JohnDoe",
+        "body":"Software update completed.",
+        "timestamp":"2015-07-27 08:32:46"
+      }
+    ]
+
 ## Author
 Takahiro Honda (a.k.a hy3)
