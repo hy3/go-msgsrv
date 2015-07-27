@@ -25,11 +25,11 @@ Send message to drawer named JohnDoe.
 
     POST /JohnDoe/messages/new
 
-Send broadcast message(Broadcast message is delivered to all drawers.).
+Send broadcast message. Broadcast message is delivered to all drawers.
 
     POST /messages/new
 
-Show all messages in drawer named JohnDoe. Message is shown with JSON Format
+Show and remove all messages in drawer named JohnDoe, with JSON Format. 
 
     GET /JohnDoe/messages
 
