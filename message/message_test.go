@@ -100,7 +100,7 @@ func TestPost_Broadcast(t *testing.T) {
 	msgBox.addDrawer("b")
 	msgBox.addDrawer("c")
 
-	msg := New("someone", Broadcast, "testmsg")
+	msg := New("b", Broadcast, "testmsg")
 	msgBox.Post(msg)
 
 	a := msgBox.Drawers["a"]
@@ -112,11 +112,8 @@ func TestPost_Broadcast(t *testing.T) {
 	}
 
 	b := msgBox.Drawers["b"]
-	if len(b.Messages) != 1 {
-		t.Fatalf("len(b.Messages) => %d, want %d", len(b.Messages), 1)
-	}
-	if b.Messages[0].Body != "testmsg" {
-		t.Errorf("b.Messages[0].Body => %s, want %s", b.Messages[0].Body, "testmsg")
+	if len(b.Messages) != 0 {
+		t.Fatalf("len(b.Messages) => %d, want %d", len(b.Messages), 0)
 	}
 
 	c := msgBox.Drawers["c"]

@@ -44,8 +44,10 @@ func (m *MessageBox) Post(msg *Message) error {
 	}
 
 	if msg.To == Broadcast {
-		for _, drawer := range m.Drawers {
-			drawer.appendMessage(msg)
+		for name, drawer := range m.Drawers {
+			if name != msg.From {
+				drawer.appendMessage(msg)
+			}
 		}
 	} else {
 		m.addDrawer(msg.To)
