@@ -25,6 +25,10 @@ func NewMessageBox() *MessageBox {
 	return m
 }
 
+func (m *MessageBox) Dump() ([]byte, error) {
+	return json.Marshal(m.Drawers)
+}
+
 // Pickup take out all message in a Drawer.
 func (m *MessageBox) Pickup(name string) []*Message {
 	drawer, ok := m.Drawers[name]

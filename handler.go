@@ -22,6 +22,7 @@ func SetupHandler() http.Handler {
 	router.HandleFunc("/messages/new", addBroadcastMessage).Methods(methodPost)
 	router.HandleFunc("/{name:[0-9a-zA-Z]+}/messages/new", addMessage).Methods(methodPost)
 	router.HandleFunc("/{name:[0-9a-zA-Z]+}/messages", showMessages).Methods(methodGet)
+	router.HandleFunc("/dump", dump).Methods(methodGet)
 
 	return router
 }
@@ -57,6 +58,16 @@ func showMessages(writer http.ResponseWriter, request *http.Request) {
 	}
 
 	json, err := message.ConvertToJSON(messages)
+	if err != nil {
+		fmt.Printf("JSON error: %s", err)
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	writer.Write(json)
+}
+
+func dump(writer http.ResponseWriter, request *http.Request) {
+	json, err := msgBox.Dump()
 	if err != nil {
 		fmt.Printf("JSON error: %s", err)
 		writer.WriteHeader(http.StatusInternalServerError)
