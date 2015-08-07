@@ -119,7 +119,7 @@ func TestPost_Broadcast(t *testing.T) {
 		t.Errorf("b.Messages[0].Body => %s, want %s", b.Messages[0].Body, "testmsg")
 	}
 
-	c := msgBox.Drawers["b"]
+	c := msgBox.Drawers["c"]
 	if len(c.Messages) != 1 {
 		t.Fatalf("len(c.Messages) => %d, want %d", len(c.Messages), 1)
 	}
